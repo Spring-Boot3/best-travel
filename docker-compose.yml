@@ -12,6 +12,6 @@ services:
     environment:
       - POSTGRES_DB=best_travel
       - POSTGRES_USER=besttravel
-      - POSTGRES_PASSWORD=VzLJQ!sWdEc$6YSO&wkcw
+      - POSTGRES_PASSWORD=12345678
     ports:
-      - "5432:5432"
+      - "5434:5432"
