@@ -2,6 +2,10 @@ package com.debuggeando_ideas.best_travel.domain.entities;
 
 import com.debuggeando_ideas.best_travel.util.AeroLine;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -10,6 +14,14 @@ import java.math.BigDecimal;
 // esto quiere decir que va ser convertido a Byte para ser transmitido atravez de HTTP.
 
 @Entity(name = "fly")
+// Constructor sin todos los argumentos
+@NoArgsConstructor
+// Constructor con todos los argumentos
+@AllArgsConstructor
+// Getters, Setters, ToString
+@Data
+//Patron de diseño Builder
+@Builder
 public class FlyEntity implements Serializable {
 
     @Id
