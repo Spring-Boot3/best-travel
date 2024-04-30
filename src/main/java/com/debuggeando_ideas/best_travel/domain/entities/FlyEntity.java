@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Set;
 
 //La implementacion Serializable se refiere a que todos los objeto que utilizen este entity va ser serializado
 // esto quiere decir que va ser convertido a Byte para ser transmitido atravez de HTTP.
@@ -38,5 +39,12 @@ public class FlyEntity implements Serializable {
     private String destinyName;
     @Enumerated(EnumType.STRING)
     private AeroLine aeroLine;
+    @OneToMany(
+            cascade = CascadeType.ALL ,
+            fetch = FetchType.EAGER,
+            orphanRemoval = true,
+            mappedBy = "fly"
+    )
+    private Set<TicketEntity> tickets;
 
 }
