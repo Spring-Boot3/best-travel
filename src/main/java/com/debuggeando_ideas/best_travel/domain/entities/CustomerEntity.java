@@ -28,12 +28,26 @@ public class CustomerEntity implements Serializable {
     private Integer totalLodgings;
     private Integer totalTours;
     @OneToMany(
-            cascade = CascadeType.ALL ,
+            cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER,
+            orphanRemoval = true,
+            mappedBy = "customer"
+    )
+    private Set<TicketEntity> tickets;
+    @OneToMany(
+            cascade = CascadeType.ALL,
             fetch = FetchType.EAGER,
             orphanRemoval = true,
             mappedBy = "customer"
     )
     private Set<ReservationEntity> reservations;
+    @OneToMany(
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            orphanRemoval = true,
+            mappedBy = "customer"
+    )
+    private Set<TourEntity> tours;
 
 
 }

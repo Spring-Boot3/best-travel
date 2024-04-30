@@ -30,5 +30,5 @@ public class TicketEntity implements Serializable {
     private TourEntity tour;
     @ManyToOne
     @JoinColumn(name = "custumer_id")
-    private CustomerEntity custumer;
+    private CustomerEntity customer;
 }

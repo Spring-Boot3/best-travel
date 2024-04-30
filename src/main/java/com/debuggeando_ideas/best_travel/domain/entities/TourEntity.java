@@ -19,15 +19,17 @@ public class TourEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @OneToMany(
-            cascade = CascadeType.ALL ,
+            cascade = CascadeType.ALL,
             fetch = FetchType.EAGER,
             orphanRemoval = true,
             mappedBy = "tour"
     )
     private Set<ReservationEntity> reservations;
+
     @OneToMany(
-            cascade = CascadeType.ALL ,
+            cascade = CascadeType.ALL,
             fetch = FetchType.EAGER,
             orphanRemoval = true,
             mappedBy = "tour"

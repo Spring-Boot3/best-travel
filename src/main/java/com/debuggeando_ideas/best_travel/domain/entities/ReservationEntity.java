@@ -35,5 +35,5 @@ public class ReservationEntity implements Serializable {
     private TourEntity tour;
     @ManyToOne
     @JoinColumn(name = "customer_id")
-    private CustomerEntity custumer;
+    private CustomerEntity customer;
 }
