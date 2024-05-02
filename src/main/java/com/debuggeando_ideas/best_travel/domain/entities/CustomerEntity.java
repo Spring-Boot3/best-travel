@@ -24,7 +24,7 @@ public class CustomerEntity implements Serializable {
     private String creditCard;
     @Column(length = 12)
     private String phoneNumber;
-    private Integer totalflights;
+    private Integer totalFlights;
     private Integer totalLodgings;
     private Integer totalTours;
     @OneToMany(
