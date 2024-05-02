@@ -2,10 +2,7 @@ package com.debuggeando_ideas.best_travel.domain.entities;
 
 import com.debuggeando_ideas.best_travel.util.AeroLine;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -39,6 +36,10 @@ public class FlyEntity implements Serializable {
     private String destinyName;
     @Enumerated(EnumType.STRING)
     private AeroLine aeroLine;
+    //Estas dos etiquetas las mandamos a llamar
+    // para evitar la recursividad infinita del metodo ToString
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @OneToMany(
             cascade = CascadeType.ALL ,
             fetch = FetchType.EAGER,
