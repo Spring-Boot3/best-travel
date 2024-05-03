@@ -8,11 +8,11 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Set;
 
-//La implementacion Serializable se refiere a que todos los objeto que utilizen este entity va ser serializado
-// esto quiere decir que va ser convertido a Byte para ser transmitido atravez de HTTP.
+//La implementacion Serializable se refiere a que todos los objeto que utilizen este entity va a ser serializado
+// esto quiere decir que va a ser convertido a Byte para ser transmitido atravez de HTTP.
 
 @Entity(name = "fly")
-// Constructor sin todos los argumentos
+// Constructor sin argumentos
 @NoArgsConstructor
 // Constructor con todos los argumentos
 @AllArgsConstructor
