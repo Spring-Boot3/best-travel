@@ -6,6 +6,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.math.BigDecimal;
+
 @SpringBootApplication
 @Slf4j
 public class BestTravelApplication implements CommandLineRunner {
@@ -44,7 +46,7 @@ public class BestTravelApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		var fly = flyRepository.findById(15L).get();
-		var hotel = hotelRepository.findById(7L).get();
+//		hotelRepository.findByPriceLessThan(BigDecimal.valueOf(100)).forEach(System.out::println);
+
 	}
 }
