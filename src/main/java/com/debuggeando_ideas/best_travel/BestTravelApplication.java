@@ -86,5 +86,10 @@ public class BestTravelApplication implements CommandLineRunner {
 				 .totalDays(1)
 				 .price(hotel.getPrice().multiply(BigDecimal.TEN))
 				 .build();
+
+		 System.out.println("---SAVING---");
+		 this.tourRepository.save(tour);
+		 this.ticketRepository.save(ticket);
+		 this.reservationRepository.save(reservation);
 	}
 }
