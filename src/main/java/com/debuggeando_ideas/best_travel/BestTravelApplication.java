@@ -88,8 +88,11 @@ public class BestTravelApplication implements CommandLineRunner {
 				 .build();
 
 		 System.out.println("---SAVING---");
+		 tour.addReservation(reservation);
+		 tour.updateReservation();
+
+		 tour.addTicket(ticket);
+		 tour.updateTickets();
 		 this.tourRepository.save(tour);
-		 this.ticketRepository.save(ticket);
-		 this.reservationRepository.save(reservation);
 	}
 }
