@@ -74,7 +74,8 @@ public class TicketService implements ITicketService {
 
     @Override
     public void delete(UUID id) {
-
+        var ticketToDelete = ticketRepository.findById(id).orElseThrow();
+        this.ticketRepository.delete(ticketToDelete);
     }
 
     private TicketResponse entityToResponse(TicketEntity entity) {
