@@ -38,7 +38,7 @@ public class TicketService implements ITicketService {
                 .id(UUID.randomUUID())
                 .fly(fly)
                 .customer(customer)
-                .price(fly.getPrice().multiply(BigDecimal.valueOf(0.25)))
+                .price(fly.getPrice().add(fly.getPrice().multiply(changer_price_percent)))
                 .purchaseDate(LocalDate.now())
                 .arrivalDate(LocalDateTime.now())
                 .departureDate(LocalDateTime.now())
@@ -63,7 +63,7 @@ public class TicketService implements ITicketService {
         var fly = flyRepository.findById(request.getIdFly()).orElseThrow();
 
         ticketToUpdate.setFly(fly);
-        ticketToUpdate.setPrice(fly.getPrice().multiply(BigDecimal.valueOf(0.25)));
+        ticketToUpdate.setPrice(fly.getPrice().add(fly.getPrice().multiply(changer_price_percent)));
         ticketToUpdate.setDepartureDate(LocalDateTime.now());
         ticketToUpdate.setArrivalDate(LocalDateTime.now());
 
@@ -78,6 +78,12 @@ public class TicketService implements ITicketService {
         this.ticketRepository.delete(ticketToDelete);
     }
 
+    @Override
+    public BigDecimal findPrice(Long flyId) {
+        var fly = flyRepository.findById(flyId).orElseThrow();
+        return fly.getPrice().multiply(changer_price_percent);
+    }
+
     private TicketResponse entityToResponse(TicketEntity entity) {
         var response = new TicketResponse();
         // Esta libreria se encarga de copiar el entity con nuestro DTO macheando las propiedades iguales.
@@ -87,4 +93,6 @@ public class TicketService implements ITicketService {
         response.setFly(flyResponse);
         return response;
     }
+
+    private static final BigDecimal changer_price_percent = BigDecimal.valueOf(0.25);
 }
