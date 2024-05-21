@@ -8,6 +8,7 @@ import com.debuggeando_ideas.best_travel.domain.repositories.CustomerRepository;
 import com.debuggeando_ideas.best_travel.domain.repositories.FlyRepository;
 import com.debuggeando_ideas.best_travel.domain.repositories.TicketRepository;
 import com.debuggeando_ideas.best_travel.infraestructure.abstract_services.ITicketService;
+import com.debuggeando_ideas.best_travel.util.BestTravelUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -40,8 +41,8 @@ public class TicketService implements ITicketService {
                 .customer(customer)
                 .price(fly.getPrice().add(fly.getPrice().multiply(changer_price_percent)))
                 .purchaseDate(LocalDate.now())
-                .arrivalDate(LocalDateTime.now())
-                .departureDate(LocalDateTime.now())
+                .arrivalDate(BestTravelUtil.getRandomSoon())
+                .departureDate(BestTravelUtil.getRandomLatter())
                 .build();
 
         var ticketPersisted = this.ticketRepository.save(ticketToPersist);
@@ -64,8 +65,8 @@ public class TicketService implements ITicketService {
 
         ticketToUpdate.setFly(fly);
         ticketToUpdate.setPrice(fly.getPrice().add(fly.getPrice().multiply(changer_price_percent)));
-        ticketToUpdate.setDepartureDate(LocalDateTime.now());
-        ticketToUpdate.setArrivalDate(LocalDateTime.now());
+        ticketToUpdate.setArrivalDate(BestTravelUtil.getRandomSoon());
+        ticketToUpdate.setDepartureDate(BestTravelUtil.getRandomLatter());
 
         var ticketUpdate = this.ticketRepository.save(ticketToUpdate);
 
@@ -81,7 +82,7 @@ public class TicketService implements ITicketService {
     @Override
     public BigDecimal findPrice(Long flyId) {
         var fly = flyRepository.findById(flyId).orElseThrow();
-        return fly.getPrice().multiply(changer_price_percent);
+        return fly.getPrice().add(fly.getPrice().multiply(changer_price_percent));
     }
 
     private TicketResponse entityToResponse(TicketEntity entity) {
