@@ -52,17 +52,33 @@ public class ReservationService implements IReservationService {
 
     @Override
     public ReservationResponse read(UUID uuid) {
-        return null;
+        var reservationFromDB = this.reservationRepository.findById(uuid).orElseThrow();
+        return this.entityToResponse(reservationFromDB);
     }
 
     @Override
     public ReservationResponse update(ReservationRequest request, UUID uuid) {
-        return null;
+        var reservationToUpdate = this.reservationRepository.findById(uuid).orElseThrow();
+        var hotel = this.hotelRepository.findById(request.getIdHotel()).orElseThrow();
+
+        reservationToUpdate.setHotel(hotel);
+        reservationToUpdate.setTotalDays(request.getTotalDays());
+        reservationToUpdate.setPrice(hotel.getPrice().add(hotel.getPrice().multiply(changes_price_percent)));
+
+        var reservationUpdate = reservationRepository.save(reservationToUpdate);
+        return entityToResponse(reservationUpdate);
     }
 
     @Override
     public void delete(UUID uuid) {
+        var reservationToDelete = reservationRepository.findById(uuid).orElseThrow();
+        this.reservationRepository.delete(reservationToDelete);
+    }
 
+    @Override
+    public BigDecimal findPrice(Long id) {
+        var hotel = hotelRepository.findById(id).orElseThrow();
+        return hotel.getPrice().add(hotel.getPrice().multiply(changes_price_percent));
     }
 
     private ReservationResponse entityToResponse(ReservationEntity entity) {
