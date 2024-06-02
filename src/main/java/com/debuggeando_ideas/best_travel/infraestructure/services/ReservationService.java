@@ -1,12 +1,9 @@
 package com.debuggeando_ideas.best_travel.infraestructure.services;
 
 import com.debuggeando_ideas.best_travel.api.models.request.ReservationRequest;
-import com.debuggeando_ideas.best_travel.api.models.response.FlyResponse;
 import com.debuggeando_ideas.best_travel.api.models.response.HotelResponse;
 import com.debuggeando_ideas.best_travel.api.models.response.ReservationResponse;
-import com.debuggeando_ideas.best_travel.api.models.response.TicketResponse;
 import com.debuggeando_ideas.best_travel.domain.entities.ReservationEntity;
-import com.debuggeando_ideas.best_travel.domain.entities.TicketEntity;
 import com.debuggeando_ideas.best_travel.domain.repositories.CustomerRepository;
 import com.debuggeando_ideas.best_travel.domain.repositories.HotelRepository;
 import com.debuggeando_ideas.best_travel.domain.repositories.ReservationRepository;
