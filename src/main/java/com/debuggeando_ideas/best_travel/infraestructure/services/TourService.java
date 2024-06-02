@@ -46,7 +46,7 @@ public class TourService implements ITourService {
                 .customer(customer)
                 .build();
 
-        //Aqui ya guardamos pero no retorna el Entity
+        //Aqui ya guardamos pero nos retorna el Entity
         var tourSaved = tourRepository.save(tourToSave);
 
         //Lo que se hara en este caso es retornar él response
@@ -61,12 +61,18 @@ public class TourService implements ITourService {
 
     @Override
     public TourResponse read(Long aLong) {
-        return null;
+        var tourFromDB = this.tourRepository.findById(aLong).orElseThrow();
+        return TourResponse.builder()
+                .reservationIds(tourFromDB.getReservations().stream().map(ReservationEntity::getId).collect(Collectors.toSet()))
+                .ticketIds(tourFromDB.getTickets().stream().map(TicketEntity::getId).collect(Collectors.toSet()))
+                .id(tourFromDB.getId())
+                .build();
     }
 
     @Override
-    public void delete(Long aLong) {
-
+    public void delete(Long id) {
+        var tourToDelete = tourRepository.findById(id).orElseThrow();
+        this.tourRepository.delete(tourToDelete);
     }
 
     @Override
