@@ -2,6 +2,7 @@ package com.debuggeando_ideas.best_travel.infraestructure.services;
 
 import com.debuggeando_ideas.best_travel.api.models.request.TourRequest;
 import com.debuggeando_ideas.best_travel.api.models.response.TourResponse;
+import com.debuggeando_ideas.best_travel.domain.entities.*;
 import com.debuggeando_ideas.best_travel.domain.repositories.CustomerRepository;
 import com.debuggeando_ideas.best_travel.domain.repositories.FlyRepository;
 import com.debuggeando_ideas.best_travel.domain.repositories.HotelRepository;
@@ -12,7 +13,10 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Transactional
 @Service
@@ -30,7 +34,29 @@ public class TourService implements ITourService {
     private final TourHelper tourHelper;
     @Override
     public TourResponse create(TourRequest request) {
-        return null;
+        var customer = customerRepository.findById(request.getCustomerId()).orElseThrow();
+        var flights = new HashSet<FlyEntity>();
+        request.getFlights().forEach(fly -> { flights.add(flyRepository.findById(fly.getId()).orElseThrow()); });
+        var hotels = new HashMap<HotelEntity, Integer>();
+        request.getHotels().forEach(hotel -> { hotels.put(hotelRepository.findById(hotel.getId()).orElseThrow(), hotel.getTotalDays()); });
+
+        var tourToSave = TourEntity.builder()
+                .tickets(tourHelper.createTickets(flights, customer))
+                .reservations(tourHelper.createReservations(hotels, customer))
+                .customer(customer)
+                .build();
+
+        //Aqui ya guardamos pero no retorna el Entity
+        var tourSaved = tourRepository.save(tourToSave);
+
+        //Lo que se hara en este caso es retornar él response
+        return TourResponse.builder()
+                //Se hace uso de los metodos de Stream para poder obtener los Ids de las reservaciones y tickets
+                // y poder asignarlos al respons
+                .reservationIds(tourSaved.getReservations().stream().map(ReservationEntity::getId).collect(Collectors.toSet()))
+                .ticketIds(tourSaved.getTickets().stream().map(TicketEntity::getId).collect(Collectors.toSet()))
+                .id(tourSaved.getId())
+                .build();
     }
 
     @Override

@@ -87,5 +87,5 @@ public class ReservationService implements IReservationService {
         return response;
     }
 
-    private static final BigDecimal changes_price_percent = BigDecimal.valueOf(1.75);
+    public static final BigDecimal changes_price_percent = BigDecimal.valueOf(1.75);
 }
