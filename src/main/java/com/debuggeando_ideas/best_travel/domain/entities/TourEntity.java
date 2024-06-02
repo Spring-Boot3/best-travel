@@ -41,33 +41,17 @@ public class TourEntity implements Serializable {
     @JoinColumn(name = "id_customer")
     private CustomerEntity customer;
 
-    public void addTicket(TicketEntity ticket){
-        if(Objects.isNull(this.tickets)) this.tickets = new HashSet<>();
-        this.tickets.add(ticket);
+    /**
+     * Estas anotaciones se utilizan para asegurar
+     * que las relaciones bidireccionales entre
+     * TourEntity y TicketEntity / ReservationEntity
+     * se mantengan correctamente cuando se persisten o eliminan las entidades.
+     */
+    @PrePersist
+    @PreRemove
+    public void updateFK(){
+        if(Objects.nonNull(this.tickets)) this.tickets.forEach(ticket -> ticket.setTour(this));
+        if(Objects.nonNull(this.reservations)) this.reservations.forEach(reservation -> reservation.setTour(this));
     }
 
-    public void removeTicket(UUID id){
-        //Aquí es una funcion lambda que removera el ticket solo si se cumple la condicion
-        if(Objects.isNull(this.tickets)) this.tickets = new HashSet<>();
-        this.tickets.removeIf(ticket -> ticket.getId().equals(id));
-    }
-
-    public void updateTickets(){
-        this.tickets.forEach(ticket -> ticket.setTour(this));
-    }
-
-    public void addReservation(ReservationEntity reservation){
-        if(Objects.isNull(this.reservations)) this.reservations = new HashSet<>();
-        this.reservations.add(reservation);
-    }
-
-    public void removeReservation(UUID id){
-        //Aquí es una funcion lambda que removera el ticket solo si se cumple la condicion
-        if(Objects.isNull(this.reservations)) this.reservations = new HashSet<>();
-        this.reservations.removeIf(reservation -> reservation.getId().equals(id));
-    }
-
-    public void updateReservation(){
-        this.reservations.forEach(reservation -> reservation.setTour(this));
-    }
 }
