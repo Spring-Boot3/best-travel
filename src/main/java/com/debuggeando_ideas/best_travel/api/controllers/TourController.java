@@ -2,7 +2,7 @@ package com.debuggeando_ideas.best_travel.api.controllers;
 
 import com.debuggeando_ideas.best_travel.api.models.request.TourRequest;
 import com.debuggeando_ideas.best_travel.api.models.response.TourResponse;
-import com.debuggeando_ideas.best_travel.infraestructure.abstract_services.ITourService;
+import com.debuggeando_ideas.best_travel.infraestructure.services.TourService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @AllArgsConstructor
 public class TourController {
 
-    private final ITourService tourService;
+    private final TourService tourService;
 
     @PostMapping
     public ResponseEntity<TourResponse> create(@RequestBody TourRequest request){

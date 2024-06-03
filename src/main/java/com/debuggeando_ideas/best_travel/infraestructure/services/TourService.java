@@ -77,12 +77,19 @@ public class TourService implements ITourService {
 
     @Override
     public void removeTicket(UUID ticketId, Long tourId) {
-
+        var tourUpdate = tourRepository.findById(tourId).orElseThrow();
+        tourUpdate.removeTicket(ticketId);
+        tourRepository.save(tourUpdate);
     }
 
     @Override
-    public UUID addTicket(UUID flyId, Long tourId) {
-        return null;
+    public UUID addTicket(Long flyId, Long tourId) {
+        var tourUpdate = tourRepository.findById(tourId).orElseThrow();
+        var fly = flyRepository.findById(flyId).orElseThrow();
+        var ticket = tourHelper.createTicket(fly, tourUpdate.getCustomer());
+        tourUpdate.addTicket(ticket);
+        tourRepository.save(tourUpdate);
+        return ticket.getId();
     }
 
     @Override
