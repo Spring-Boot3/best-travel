@@ -76,7 +76,7 @@ public class TourService implements ITourService {
     }
 
     @Override
-    public void removeTicket(UUID ticketId, Long tourId) {
+    public void removeTicket(Long tourId, UUID ticketId) {
         var tourUpdate = tourRepository.findById(tourId).orElseThrow();
         tourUpdate.removeTicket(ticketId);
         tourRepository.save(tourUpdate);
@@ -93,7 +93,7 @@ public class TourService implements ITourService {
     }
 
     @Override
-    public void removeReservation(UUID reservationId, Long tourId) {
+    public void removeReservation(Long tourId, UUID reservationId) {
 
     }
 
