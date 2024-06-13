@@ -61,7 +61,7 @@ public class TourHelper {
                     .dateEnd(LocalDate.now().plusDays(totalDays))
                     .price(hotel.getPrice().multiply(ReservationService.changes_price_percent).multiply(BigDecimal.valueOf(totalDays)))
                     .build();
-            response.add(this.reservationRepository.save(reservationToPersist));
+            response.add(this.reservationRepository.save(reservationToPersist)) ;
         });
         return response;
     }
@@ -77,6 +77,20 @@ public class TourHelper {
                 .departureDate(BestTravelUtil.getRandomLatter())
                 .build();
         return ticketRepository.save(ticketToPersist);
+    }
+
+    public ReservationEntity createReservation(HotelEntity hotel, CustomerEntity customerEntity, Integer totalDays) {
+        var reservationToPersist = ReservationEntity.builder()
+                .id(UUID.randomUUID())
+                .hotel(hotel)
+                .customer(customerEntity)
+                .totalDays(totalDays)
+                .dateTimeReservation(LocalDateTime.now())
+                .dateStart(LocalDate.now())
+                .dateEnd(LocalDate.now().plusDays(totalDays))
+                .price(hotel.getPrice().add(hotel.getPrice().multiply(ReservationService.changes_price_percent)))
+                .build();
+        return reservationRepository.save(reservationToPersist);
     }
 
 }

@@ -94,11 +94,18 @@ public class TourService implements ITourService {
 
     @Override
     public void removeReservation(Long tourId, UUID reservationId) {
-
+        var reservationRemove = tourRepository.findById(tourId).orElseThrow();
+        reservationRemove.removeReservation(reservationId);
+        tourRepository.save(reservationRemove);
     }
 
     @Override
-    public UUID addReservation(UUID reservationId, Long tourId) {
-        return null;
+    public UUID addReservation(Long tourId, Long hotelId, Integer totalDays) {
+        var tourUpdate = tourRepository.findById(tourId).orElseThrow();
+        var hotel = hotelRepository.findById(hotelId).orElseThrow();
+        var reservations = tourHelper.createReservation(hotel, tourUpdate.getCustomer(), totalDays);
+        tourUpdate.addReservation(reservations);
+        tourRepository.save(tourUpdate);
+        return reservations.getId();
     }
 }
