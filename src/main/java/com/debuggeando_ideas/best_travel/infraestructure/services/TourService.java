@@ -8,6 +8,7 @@ import com.debuggeando_ideas.best_travel.domain.repositories.FlyRepository;
 import com.debuggeando_ideas.best_travel.domain.repositories.HotelRepository;
 import com.debuggeando_ideas.best_travel.domain.repositories.TourRepository;
 import com.debuggeando_ideas.best_travel.infraestructure.abstract_services.ITourService;
+import com.debuggeando_ideas.best_travel.infraestructure.helpers.CustomerHelper;
 import com.debuggeando_ideas.best_travel.infraestructure.helpers.TourHelper;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
@@ -32,6 +33,7 @@ public class TourService implements ITourService {
      es por eso que se hara la creacion de un Helper
     */
     private final TourHelper tourHelper;
+    private final CustomerHelper customerHelper;
     @Override
     public TourResponse create(TourRequest request) {
         var customer = customerRepository.findById(request.getCustomerId()).orElseThrow();
@@ -48,7 +50,7 @@ public class TourService implements ITourService {
 
         //Aqui ya guardamos pero nos retorna el Entity
         var tourSaved = tourRepository.save(tourToSave);
-
+        customerHelper.incrase(customer.getDni(), TourService.class);
         //Lo que se hara en este caso es retornar él response
         return TourResponse.builder()
                 //Se hace uso de los metodos de Stream para poder obtener los Ids de las reservaciones y tickets
