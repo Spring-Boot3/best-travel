@@ -1,6 +1,6 @@
 package com.debuggeando_ideas.best_travel.infraestructure.abstract_services;
 
-import com.debuggeando_ideas.best_travel.util.SortType;
+import com.debuggeando_ideas.best_travel.util.enums.SortType;
 import org.springframework.data.domain.Page;
 
 import java.math.BigDecimal;
