@@ -15,7 +15,7 @@ public class ForbiddenCustomerHandler {
     @ExceptionHandler(ForbiddenCustomerException.class)
     public BaseErrorResponse handleIdNotFound(ForbiddenCustomerException exception) {
         return ErrorResponse.builder()
-                .message(exception.getMessage())
+                .error(exception.getMessage())
                 .status(HttpStatus.FORBIDDEN.name())
                 .code(HttpStatus.FORBIDDEN.value())
                 .build();
