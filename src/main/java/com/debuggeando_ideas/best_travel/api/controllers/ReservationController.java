@@ -9,6 +9,7 @@ import com.debuggeando_ideas.best_travel.domain.repositories.HotelRepository;
 import com.debuggeando_ideas.best_travel.domain.repositories.ReservationRepository;
 import com.debuggeando_ideas.best_travel.infraestructure.abstract_services.IReservationService;
 import com.debuggeando_ideas.best_travel.infraestructure.services.ReservationService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +27,7 @@ public class ReservationController {
     private final IReservationService iReservationService;
 
     @PostMapping
-    public ResponseEntity<ReservationResponse> post(@RequestBody ReservationRequest request){
+    public ResponseEntity<ReservationResponse> post(@Valid @RequestBody ReservationRequest request){
         return ResponseEntity.ok(iReservationService.create(request));
     }
 
@@ -36,7 +37,7 @@ public class ReservationController {
     }
 
     @PutMapping(path = "/{id}")
-    public ResponseEntity<ReservationResponse> put(@RequestBody ReservationRequest request, @PathVariable UUID id){
+    public ResponseEntity<ReservationResponse> put(@Valid @RequestBody ReservationRequest request, @PathVariable UUID id){
         return ResponseEntity.ok(iReservationService.update(request, id));
     }
 
