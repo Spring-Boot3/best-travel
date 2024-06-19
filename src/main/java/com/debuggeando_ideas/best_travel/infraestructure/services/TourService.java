@@ -8,6 +8,7 @@ import com.debuggeando_ideas.best_travel.domain.repositories.FlyRepository;
 import com.debuggeando_ideas.best_travel.domain.repositories.HotelRepository;
 import com.debuggeando_ideas.best_travel.domain.repositories.TourRepository;
 import com.debuggeando_ideas.best_travel.infraestructure.abstract_services.ITourService;
+import com.debuggeando_ideas.best_travel.infraestructure.helpers.BlackListHelper;
 import com.debuggeando_ideas.best_travel.infraestructure.helpers.CustomerHelper;
 import com.debuggeando_ideas.best_travel.infraestructure.helpers.TourHelper;
 import jakarta.transaction.Transactional;
@@ -34,8 +35,10 @@ public class TourService implements ITourService {
     */
     private final TourHelper tourHelper;
     private final CustomerHelper customerHelper;
+    private final BlackListHelper blackListHelper;
     @Override
     public TourResponse create(TourRequest request) {
+        blackListHelper.isInBlackListCustomer(request.getCustomerId());
         var customer = customerRepository.findById(request.getCustomerId()).orElseThrow();
         var flights = new HashSet<FlyEntity>();
         request.getFlights().forEach(fly -> { flights.add(flyRepository.findById(fly.getId()).orElseThrow()); });

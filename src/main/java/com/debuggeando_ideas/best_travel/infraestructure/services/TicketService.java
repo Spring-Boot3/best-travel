@@ -9,6 +9,7 @@ import com.debuggeando_ideas.best_travel.domain.repositories.CustomerRepository;
 import com.debuggeando_ideas.best_travel.domain.repositories.FlyRepository;
 import com.debuggeando_ideas.best_travel.domain.repositories.TicketRepository;
 import com.debuggeando_ideas.best_travel.infraestructure.abstract_services.ITicketService;
+import com.debuggeando_ideas.best_travel.infraestructure.helpers.BlackListHelper;
 import com.debuggeando_ideas.best_travel.infraestructure.helpers.CustomerHelper;
 import com.debuggeando_ideas.best_travel.util.BestTravelUtil;
 import lombok.AllArgsConstructor;
@@ -32,9 +33,11 @@ public class TicketService implements ITicketService {
     private final CustomerRepository customerRepository;
     private final TicketRepository ticketRepository;
     private final CustomerHelper customerHelper;
+    private final BlackListHelper blackListHelper;
 
     @Override
     public TicketResponse create(TicketRequest request) {
+        blackListHelper.isInBlackListCustomer(request.getIdClient());
         var fly = flyRepository.findById(request.getIdFly()).orElseThrow();
         var customer = customerRepository.findById(request.getIdClient()).orElseThrow();
 

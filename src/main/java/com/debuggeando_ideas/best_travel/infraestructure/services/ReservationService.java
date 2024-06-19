@@ -9,6 +9,7 @@ import com.debuggeando_ideas.best_travel.domain.repositories.CustomerRepository;
 import com.debuggeando_ideas.best_travel.domain.repositories.HotelRepository;
 import com.debuggeando_ideas.best_travel.domain.repositories.ReservationRepository;
 import com.debuggeando_ideas.best_travel.infraestructure.abstract_services.IReservationService;
+import com.debuggeando_ideas.best_travel.infraestructure.helpers.BlackListHelper;
 import com.debuggeando_ideas.best_travel.infraestructure.helpers.CustomerHelper;
 import com.debuggeando_ideas.best_travel.util.exceptions.IdNotFoundException;
 import lombok.AllArgsConstructor;
@@ -32,9 +33,11 @@ public class ReservationService implements IReservationService {
     private final CustomerRepository customerRepository;
     private final ReservationRepository reservationRepository;
     private final CustomerHelper customerHelper;
+    private final BlackListHelper blackListHelper;
 
     @Override
     public ReservationResponse create(ReservationRequest request) {
+        blackListHelper.isInBlackListCustomer(request.getIdClient());
         var hotel = this.hotelRepository.findById(request.getIdHotel()).orElseThrow(() -> new IdNotFoundException("hotel"));
         var customer = this.customerRepository.findById(request.getIdClient()).orElseThrow(() -> new IdNotFoundException("customer"));
         var reservationToPersist = ReservationEntity.builder()
