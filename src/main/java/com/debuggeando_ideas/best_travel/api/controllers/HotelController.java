@@ -3,6 +3,7 @@ package com.debuggeando_ideas.best_travel.api.controllers;
 import com.debuggeando_ideas.best_travel.api.models.response.HotelResponse;
 import com.debuggeando_ideas.best_travel.infraestructure.services.HotelService;
 import com.debuggeando_ideas.best_travel.util.enums.SortType;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ import java.util.Set;
 @RestController
 @RequestMapping(path = "hotel")
 @AllArgsConstructor
+@Tag(name = "Hotel", description = "Hotel Controller")
 public class HotelController {
 
     private final HotelService hotelService;
